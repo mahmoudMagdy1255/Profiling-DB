@@ -73,10 +73,9 @@ select *, (max_value - min_value) as range_values, std_dev_value/avg_value as co
 
 from stats;
 ```
-| avg_value | std_dev_value | min_Value | max_value | total_rows | distinct_values | median    | q1        | q3   | range_values | coefficient_of_variation | iqr  | lower_3sigma | upper_3sigma |
-|-----------|---------------|-----------|-----------|------------|-----------------|-----------|-----------|------|--------------|--------------------------|------|--------------|--------------|
-| 0.000000  | 0             | 0.00      | 0.00      | 2          | 1               | 0.000000  | 0.000000  |      | 0.00         |                          |      | 0            | 0            |
-
+| avg_value  | std_dev_value      | min_Value | max_value | total_rows | distinct_values | median    | q1        | q3        | range_values | coefficient_of_variation | iqr       | lower_3sigma          | upper_3sigma          |
+|------------|-------------------|-----------|-----------|------------|-----------------|-----------|-----------|-----------|--------------|--------------------------|-----------|-----------------------|-----------------------|
+| 27.739583  | 65.20101047141107 | 0.00      | 300.00    | 96         | 7               | 0.708333  | 0.000000  | 22.500000 | 300.00       | 2.3504682990876637       | 87.041667 | -167.8634484142332    | 223.34261441423322    |
 ---
 
 ## 📌 **2. Process Monitoring & Active Queries**
