@@ -115,6 +115,10 @@ from information_schema.processlist
 where command != 'Sleep'
 order by time desc;
 ```
+| ID    | USER            | HOST             | DB     | COMMAND | TIME (seconds) | TIME (human)                                  | STATE                   | INFO (preview)                                                          |
+|-------|-----------------|------------------|--------|---------|----------------|-----------------------------------------------|-------------------------|-------------------------------------------------------------------------|
+| 5     | event_scheduler | localhost        | NULL   | Daemon  | 2228708        | 25 days, 19 hours, 5 minutes, 8 seconds       | Waiting on empty queue  | NULL                                                                    |
+| 19533 | root            | localhost:49296  | clinic | Query   | 0              | 0 seconds                                     | executing               | select * from information_schema.processlist where command != 'Sleep'… |
 
 ---
 
@@ -129,6 +133,13 @@ where digest_text like '%notification%'
 order by sum_timer_wait desc
 limit 10;
 ```
+---
+| digest_text | count_star | sum_timer_wait | 
+| --- | ---: | ---: | 
+| CREATE TABLE IF NOT EXISTS `notifications` ( `id` CHARACTER (?) COLLATE `utf8mb4_unicode_ci` NOT NULL , `type` VARCHARACTER (?) COLLATE `utf8mb4_unicode_ci` NOT NULL , `notifiable_type` VARCHARACTER (?) COLLATE `utf8mb4_unicode_ci` NOT NULL , `notifiable_id` INT8 UNSIGNED NOT NULL , `data` TEXT COLLATE `utf8mb4_unicode_ci` NOT NULL , `read_at` TIMESTAMP NULL DEFAULT ? , `open_at` TIMESTAMP NULL DEFAULT ? , `created_at` TIMESTAMP NULL DEFAULT ? , `updated_at` TIMESTAMP NULL DEFAULT ? , PRIMARY KEY ( `id` ) , KEY `notifications_notifiable_type_notifiable_id_index` ( `notifiable_type` , `notifiable_id` ) ) ENGINE = `InnoDB` DEFAULT CHARSET = `utf8mb4` COLLATE = `utf8mb4_unicode_ci` | 1 | 71715500000 | 
+| SELECT * FROM `swcc-aware` . `notifications` LIMIT ? | 1 | 23198000000 | 
+| SHOW CREATE TABLE `swcc-aware` . `notifications` | 1 | 1534600000 | 
+
 
 ### **High row‑examining queries**
 
