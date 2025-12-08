@@ -446,6 +446,11 @@ where variable_name = 'innodb_deadlocks';
 | Deadlock Information  | 42                     |
 +-----------------------+------------------------+
 
+| info | deadlocks_since_start | 
+| --- | --- | ---: | 
+| Deadlock Information | 42 | 
+
+
 ---
 
 ## 📌 **10. Buffer Pool Efficiency Calculation**
