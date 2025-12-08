@@ -130,7 +130,7 @@ order by time desc;
 SELECT 
     digest_text, 
     count_star, 
-    sum_timer_wait / 1000000000000 AS sum_timer_wait_seconds // from picoseconds to seconds
+    sum_timer_wait / 1000000000000 AS sum_timer_wait_from_picoseconds_to_seconds
 FROM performance_schema.events_statements_summary_by_digest
 WHERE digest_text LIKE '%notification%'
 ORDER BY sum_timer_wait DESC
