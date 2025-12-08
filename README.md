@@ -9,13 +9,26 @@ This README provides a well‑organized collection of MySQL diagnostic, auditing
 ### **Check null vs non‑null distribution in `appointments.subscription_id`**
 
 ```sql
-select id,
+SELECT
+		appointment_date,
        count(*) as total_rows,
        count(subscription_id) as non_null_count_for_subscriptions,
        (count(*) - count(subscription_id)) as null_count_for_subscriptions,
        round((count(*) - count(subscription_id)) * 100.0 / count(*), 2) as null_percentage_for_subscriptions
 from appointments
-group by id;
+group by appointment_date;
+
+| appointment_date | total_rows | non_null_count_for_subscriptions | null_count_for_subscriptions | null_percentage_for_subscriptions |
+|------------------|------------|----------------------------------|-----------------------------|-----------------------------------|
+| 2025-09-14       | 1          | 0                                | 1                           | 100.00                            |
+| 2025-09-15       | 3          | 0                                | 3                           | 100.00                            |
+| 2025-09-21       | 1          | 0                                | 1                           | 100.00                            |
+| 2025-09-22       | 1          | 0                                | 1                           | 100.00                            |
+| 2025-10-05       | 2          | 0                                | 2                           | 100.00                            |
+| 2025-10-07       | 1          | 0                                | 1                           | 100.00                            |
+| 2025-10-12       | 3          | 0                                | 3                           | 100.00                            |
+| 2025-10-13       | 1          | 0                                | 1                           | 100.00                            |
+
 ```
 
 ### **Validate email format for doctors**
