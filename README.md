@@ -440,12 +440,8 @@ select 'Deadlock Information' as info,
 from performance_schema.global_status
 where variable_name = 'innodb_deadlocks';
 ```
-+-----------------------+------------------------+
-| info                  | deadlocks_since_start |
-+-----------------------+------------------------+
-| Deadlock Information  | 42                     |
-+-----------------------+------------------------+
 
+--
 | info | deadlocks_since_start | 
 | --- | --- | ---: | 
 | Deadlock Information | 42 | 
