@@ -47,7 +47,7 @@ from doctors;
 |--------------------|---------------------|-------|
 | 27                 | 0                   | 27    |
 
-### **Detect duplicate doctor IDs/emails**
+### **Detect duplicate doctor emails**
 
 ```sql
 select email, count(*) as duplicate_count
