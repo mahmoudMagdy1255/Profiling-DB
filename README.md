@@ -43,6 +43,10 @@ select
 from doctors;
 ```
 
+| valid_email_format | invalid_email_format | total |
+|--------------------|---------------------|-------|
+| 27                 | 0                   | 27    |
+
 ### **Detect duplicate doctor IDs/emails**
 
 ```sql
@@ -51,7 +55,9 @@ from doctors
 group by id, email
 having count(*) > 1;
 ```
-
+| id | email                 | duplicate_count |
+|----|-----------------------|----------------|
+| 1  | m.magdy@wakeb.tech    | 2              |
 
 ### **Statistical Distribution Analysis**
 
