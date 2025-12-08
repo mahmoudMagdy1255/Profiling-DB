@@ -281,7 +281,7 @@ schema_redundant_indexes
 ### **Active recent patients with appointment data**
 
 ```sql
-select p.id, p.email, p.first_name,
+select p.id, p.first_name,
        a.id as appointment_id, a.total_price, a.status as appointment_status,
        s.start_time, sc.day_of_week
 from patients p
@@ -295,23 +295,15 @@ order by p.id asc
 limit 50;
 ```
 ---
-| id | email | first_name | appointment_id | total_price | appointment_status | start_time | day_of_week | 
-| ---: | --- | --- | ---: | ---: | --- | --- | --- | 
-| 1 | \N | Mariem | 3 | 150.00 | Completed | 10:15:00 | Monday | 
-| 1 | \N | Mariem | 6 | 0.00 | Scheduled | 10:15:00 | Monday | 
-| 1 | \N | Mariem | 7 | 0.00 | Scheduled | 12:52:00 | Monday | 
-| 1 | \N | Mariem | 15 | 25.00 | Scheduled | 12:55:00 | Sunday | 
-| 1 | \N | Mariem | 17 | 0.00 | Scheduled | 17:00:00 | Tuesday | 
-| 1 | \N | Mariem | 22 | 2.00 | Completed | 13:00:00 | Monday | 
-| 1 | \N | Mariem | 28 | 44.00 | Scheduled | 09:30:00 | Tuesday | 
-| 1 | \N | Mariem | 29 | 2.00 | Scheduled | 17:00:00 | Tuesday | 
-| 1 | \N | Mariem | 30 | 2.00 | Scheduled | 10:19:00 | Tuesday | 
-| 1 | \N | Mariem | 184 | 0.00 | Scheduled | 11:35:00 | Wednesday | 
-| 1 | \N | Mariem | 254 | 22.00 | Scheduled | 10:15:00 | Monday | 
-| 3 | \N | mohamed | 19 | 25.00 | Scheduled | 13:05:00 | Sunday | 
-| 8 | \N | Yousef | 73 | 0.00 | Scheduled | 12:45:00 | Sunday | 
-| 8 | \N | Yousef | 75 | 0.00 | Scheduled | 14:35:00 | Sunday | 
-| 8 | \N | Yousef | 140 | 300.00 | Scheduled | 16:00:00 | Tuesday | 
+| id | first_name | appointment_id | total_price | appointment_status | start_time | day_of_week | 
+| ---: | --- | ---: | ---: | --- | --- | --- | 
+| 1 | Mariem | 3 | 150.00 | Completed | 10:15:00 | Monday | 
+| 1 | Mariem | 15 | 25.00 | Scheduled | 12:55:00 | Sunday | 
+| 1 | Mariem | 17 | 0.00 | Scheduled | 17:00:00 | Tuesday | 
+| 1 | Mariem | 184 | 0.00 | Scheduled | 11:35:00 | Wednesday | 
+| 3 | mohamed | 19 | 25.00 | Scheduled | 13:05:00 | Sunday | 
+| 8 | Yousef | 145 | 25.00 | Scheduled | 15:00:00 | Tuesday | 
+| 9 | ahmed | 148 | 44.00 | Scheduled | 13:20:00 | Tuesday | 
 
 
 ---
