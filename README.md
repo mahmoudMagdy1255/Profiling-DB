@@ -17,6 +17,7 @@ SELECT
        round((count(*) - count(subscription_id)) * 100.0 / count(*), 2) as null_percentage_for_subscriptions
 from appointments
 group by appointment_date;
+```
 
 | appointment_date | total_rows | non_null_count_for_subscriptions | null_count_for_subscriptions | null_percentage_for_subscriptions |
 |------------------|------------|----------------------------------|-----------------------------|-----------------------------------|
@@ -29,7 +30,6 @@ group by appointment_date;
 | 2025-10-12       | 3          | 0                                | 3                           | 100.00                            |
 | 2025-10-13       | 1          | 0                                | 1                           | 100.00                            |
 
-```
 
 ### **Validate email format for doctors**
 
