@@ -36,9 +36,7 @@ from doctors
 group by id, email
 having count(*) > 1;
 ```
-| avg_value | std_dev_value | min_Value | max_value | total_rows | distinct_values | median    | q1        | q3   | range_values | coefficient_of_variation | iqr  | lower_3sigma | upper_3sigma |
-|-----------|---------------|-----------|-----------|------------|-----------------|-----------|-----------|------|--------------|--------------------------|------|--------------|--------------|
-| 0.000000  | 0             | 0.00      | 0.00      | 2          | 1               | 0.000000  | 0.000000  |      | 0.00         |                          |      | 0            | 0            |
+
 
 ### **Statistical Distribution Analysis**
 
@@ -75,6 +73,9 @@ select *, (max_value - min_value) as range_values, std_dev_value/avg_value as co
 
 from stats;
 ```
+| avg_value | std_dev_value | min_Value | max_value | total_rows | distinct_values | median    | q1        | q3   | range_values | coefficient_of_variation | iqr  | lower_3sigma | upper_3sigma |
+|-----------|---------------|-----------|-----------|------------|-----------------|-----------|-----------|------|--------------|--------------------------|------|--------------|--------------|
+| 0.000000  | 0             | 0.00      | 0.00      | 2          | 1               | 0.000000  | 0.000000  |      | 0.00         |                          |      | 0            | 0            |
 
 ---
 
