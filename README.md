@@ -50,14 +50,14 @@ from doctors;
 ### **Detect duplicate doctor IDs/emails**
 
 ```sql
-select id, email, count(*) as duplicate_count
+select email, count(*) as duplicate_count
 from doctors
-group by id, email
+group by email
 having count(*) > 1;
 ```
-| id | email                 | duplicate_count |
-|----|-----------------------|----------------|
-| 1  | m.magdy@wakeb.tech    | 2              |
+| email                 | duplicate_count |
+|-----------------------|----------------|
+| m.magdy@wakeb.tech    | 2              |
 
 ### **Statistical Distribution Analysis**
 
