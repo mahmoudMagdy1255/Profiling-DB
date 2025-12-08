@@ -37,6 +37,42 @@ group by id, email
 having count(*) > 1;
 ```
 
+### **Statistical Distribution Analysis**
+
+```sql
+
+with ordered as (
+	select net_amount,
+		NTILE(4) OVER (ORDER BY net_amount) AS quartile,
+        NTILE(2) OVER (ORDER BY net_amount) AS median_group
+		from transactions
+),
+
+stats as (
+	select avg(net_amount) as avg_value, 
+		stddev(net_amount) as std_dev_value, 
+        min(net_amount) as min_Value, 
+        max(net_amount) as max_value,
+		count(*) as total_rows,
+		count(distinct net_amount) as distinct_values,
+
+        AVG(CASE WHEN median_group = 1 THEN net_amount END) AS median,
+
+        -- Q1 and Q3 (approx)
+        AVG(CASE WHEN quartile = 1 THEN net_amount END) AS q1,
+        AVG(CASE WHEN quartile = 3 THEN net_amount END) AS q3
+
+		from ordered
+)
+
+select *, (max_value - min_value) as range_values, std_dev_value/avg_value as coefficient_of_variation,
+    (q3 - q1) as iqr,
+    (avg_value - 3*std_dev_value) as lower_3sigma,
+    (avg_value + 3*std_dev_value) as upper_3sigma
+
+from stats;
+```
+
 ---
 
 ## 📌 **2. Process Monitoring & Active Queries**
