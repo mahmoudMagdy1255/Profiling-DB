@@ -153,10 +153,24 @@ limit 10;
 ```sql
 select digest_text, sum_rows_examined, sum_rows_sent
 from performance_schema.events_statements_summary_by_digest
-where sum_rows_examined > 100000
+where sum_rows_examined > 10000
 order by sum_rows_examined desc
 limit 10;
 ```
+---
+| digest_text | sum_rows_examined | sum_rows_sent | 
+| --- | ---: | ---: | 
+| SELECT `id` , `event_id` , LEFT ( `box` , ? ) , LEFT ( `details` , ? ) , `action_type` , `detection_type_id` , `created_at` , `updated_at` FROM `swcc-aware` . `event_detections` ORDER BY `details` ASC LIMIT ? | 44814 | 11000 | 
+| SELECT `id` , `event_id` , LEFT ( `box` , ? ) , LEFT ( `details` , ? ) , `action_type` , `detection_type_id` , `created_at` , `updated_at` FROM `swcc-aware` . `event_detections` ORDER BY `details` DESC LIMIT ? | 40740 | 10000 | 
+| SELECT `id` , `event_id` , LEFT ( `box` , ? ) , LEFT ( `details` , ? ) , `action_type` , `detection_type_id` , `created_at` , `updated_at` FROM `swcc-aware` . `event_detections` ORDER BY `id` DESC , `details` ASC LIMIT ? | 32592 | 8000 | 
+| SELECT `id` , `image` , LEFT ( `heatmap` , ? ) , `notice_time` , `date` , `addition_type` , `location_id` , LEFT ( `meta_geo` , ? ) , `created_by` , `deleted_at` , `created_at` , `updated_at` FROM `swcc-aware` . `events` ORDER BY `meta_geo` DESC LIMIT ? | 27636 | 12000 | 
+| SELECT `id` , `event_id` , LEFT ( `box` , ? ) , LEFT ( `details` , ? ) , `action_type` , `detection_type_id` , `created_at` , `updated_at` FROM `swcc-aware` . `event_detections` ORDER BY `id` DESC , `details` DESC LIMIT ? | 24444 | 6000 | 
+| SELECT `id` , `image` , LEFT ( `heatmap` , ? ) , `notice_time` , `date` , `addition_type` , `location_id` , LEFT ( `meta_geo` , ? ) , `created_by` , `deleted_at` , `created_at` , `updated_at` FROM `swcc-aware` . `events` ORDER BY `meta_geo` ASC LIMIT ? | 20727 | 9000 | 
+| SELECT * FROM `information_schema` . `REFERENTIAL_CONSTRAINTS` WHERE CONSTRAINT_SCHEMA = ? AND TABLE_NAME = ? AND `REFERENCED_TABLE_NAME` IS NOT NULL | 20594 | 172 | 
+| SHOW TABLE STATUS FROM `clinic` | 19042 | 4745 | 
+| SELECT `id` , `event_id` , LEFT ( `box` , ? ) , LEFT ( `details` , ? ) , `action_type` , `detection_type_id` , `created_at` , `updated_at` FROM `swcc-aware` . `event_detections` LIMIT ? | 17000 | 17000 | 
+| SELECT `id` , `image` , LEFT ( `heatmap` , ? ) , `notice_time` , `date` , `addition_type` , `location_id` , LEFT ( `meta_geo` , ? ) , `created_by` , `deleted_at` , `created_at` , `updated_at` FROM `swcc-aware` . `events` LIMIT ? | 13000 | 13000 | 
+
 
 ---
 
