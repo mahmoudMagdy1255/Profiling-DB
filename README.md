@@ -124,24 +124,28 @@ order by time desc;
 
 ## 📌 **3. Performance Schema Insight**
 
-### **Top queries related to notifications**
+### **Top queries related to transactions**
 
 ```sql
-SELECT 
-    digest_text, 
-    count_star, 
-    sum_timer_wait / 1000000000000 AS sum_timer_wait_from_picoseconds_to_seconds
-FROM performance_schema.events_statements_summary_by_digest
-WHERE digest_text LIKE '%notification%'
-ORDER BY sum_timer_wait DESC
-LIMIT 10;
+select digest_text, count_star, sum_timer_wait / 1000000000000 AS sum_timer_wait_seconds
+from performance_schema.events_statements_summary_by_digest
+where digest_text like '%transactions%'
+order by sum_timer_wait desc
+limit 10;
 ```
 ---
-| digest_text | count_star | sum_timer_wait | 
+| digest_text | count_star | sum_timer_wait_seconds | 
 | --- | ---: | ---: | 
-| CREATE TABLE IF NOT EXISTS `notifications` ( `id` CHARACTER (?) COLLATE `utf8mb4_unicode_ci` NOT NULL , `type` VARCHARACTER (?) COLLATE `utf8mb4_unicode_ci` NOT NULL , `notifiable_type` VARCHARACTER (?) COLLATE `utf8mb4_unicode_ci` NOT NULL , `notifiable_id` INT8 UNSIGNED NOT NULL , `data` TEXT COLLATE `utf8mb4_unicode_ci` NOT NULL , `read_at` TIMESTAMP NULL DEFAULT ? , `open_at` TIMESTAMP NULL DEFAULT ? , `created_at` TIMESTAMP NULL DEFAULT ? , `updated_at` TIMESTAMP NULL DEFAULT ? , PRIMARY KEY ( `id` ) , KEY `notifications_notifiable_type_notifiable_id_index` ( `notifiable_type` , `notifiable_id` ) ) ENGINE = `InnoDB` DEFAULT CHARSET = `utf8mb4` COLLATE = `utf8mb4_unicode_ci` | 1 | 71715500000 | 
-| SELECT * FROM `swcc-aware` . `notifications` LIMIT ? | 1 | 23198000000 | 
-| SHOW CREATE TABLE `swcc-aware` . `notifications` | 1 | 1534600000 | 
+| START TRANSACTION | 90052 | 8.8641 | 
+| START TRANSACTION | 1585 | 0.1334 | 
+| START TRANSACTION | 883 | 0.1217 | 
+| SHOW INDEXES FROM `transactions` FROM `clinic` | 3 | 0.0539 | 
+| START TRANSACTION | 318 | 0.0432 | 
+| START TRANSACTION | 61 | 0.0115 | 
+| WITH `ordered` AS ( SELECT `net_amount` , NTILE (?) OVER ( ORDER BY `net_amount` ) AS `quartile` , NTILE (?) OVER ( ORDER BY `net_amount` ) AS `median_group` FROM `transactions` ) , `stats` AS ( SELECT AVG ( `net_amount` ) AS `avg_value` , STDDEV_POP ( `net_amount` ) AS `std_dev_value` , MIN ( `net_amount` ) AS `min_Value` , MAX ( `net_amount` ) AS `max_value` , COUNT ( * ) AS `total_rows` , COUNT ( DISTINCTROW `net_amount` ) AS `distinct_values` , AVG ( CASE WHEN `median_group` = ? THEN `net_amount` END ) AS `median` , AVG ( CASE WHEN `quartile` = ? THEN `net_amount` END ) AS `q1` , AVG ( CASE WHEN `quartile` = ? THEN `net_amount` END ) AS `q3` FROM `ordered` ) SELECT * , ( `max_value` - `min_value` ) AS `range_values` , `std_dev_value` / `avg_value` AS `coefficient_of_variation` , ( `q3` - `q1` ) AS `iqr` , ( `avg_value` - ? * `std_dev_value` ) AS `lower_3sigma` , ( `avg_value` + ? * `std_dev_value` ) AS `upper_3sigma` FROM `stats` | 4 | 0.0068 | 
+| SELECT `net_amount` , NTILE (?) OVER ( ORDER BY `net_amount` ) AS `quartile` , NTILE (?) OVER ( ORDER BY `net_amount` ) AS `median_group` FROM `transactions` | 1 | 0.0037 | 
+| SELECT `id` , `transactionable_id` , `transactionable_type` , `amount` , `fee` , `tax` , `status` , `net_amount` , LEFT ( `description` , ? ) , `discount` , `payment_gateway` , `payment_reference_id` , `customer_reference` , `created_at` , `updated_at` FROM `clinic` . `transactions` LIMIT ? | 3 | 0.0037 | 
+| SHOW CREATE TABLE `clinic` . `transactions` | 3 | 0.0026 | 
 
 
 ### **High row‑examining queries**
