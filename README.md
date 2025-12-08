@@ -192,6 +192,21 @@ order by sum_timer_wait desc
 limit 10;
 ```
 
+---
+| query_preview | runs | total_sec | avg_ms | rows_read | rows_returned | 
+| --- | ---: | ---: | ---: | ---: | ---: | 
+| COMMIT | 89900 | 54.37 | 0.60 | 0 | 0 | 
+| COMMIT | 1580 | 16.61 | 10.51 | 0 | 0 | 
+| COMMIT | 875 | 9.86 | 11.27 | 0 | 0 | 
+| START TRANSACTION | 90052 | 8.86 | 0.10 | 0 | 0 | 
+| SHOW TABLE STATUS FROM `clinic` | 35 | 3.39 | 96.98 | 19042 | 4745 | 
+| COMMIT | 288 | 2.81 | 9.74 | 0 | 0 | 
+| USE `eatizaz-ai` | 12435 | 2.37 | 0.19 | 0 | 0 | 
+| SET NAMES ? COLLATE ? , SESSION `sql_mode` = ? | 12443 | 1.97 | 0.16 | 0 | 0 | 
+| RENAME TABLE `swcc-aware` . `cache` TO `swcc-aware2` . `cache` , `swcc-aware` . `cache_locks` TO `sw | 1 | 1.53 | 1528.67 | 0 | 0 | 
+| USE `clinic` | 6003 | 1.17 | 0.20 | 0 | 0 | 
+
+
 ### **Running queries longer than 5 seconds**
 
 ```sql
@@ -200,6 +215,10 @@ from information_schema.processlist
 where time > 5 and command != 'Sleep'
 order by time desc;
 ```
+---
+| id | user | host | db | command | time | state | query | 
+| ---: | --- | --- | --- | --- | ---: | --- | --- | 
+| 5 | event_scheduler | localhost | \N | Daemon | 2229897 | Waiting on empty queue | \N | 
 
 ---
 
@@ -216,12 +235,96 @@ group by table_schema
 order by size_mb desc;
 ```
 
+---
+| db | size_mb | table_count | 
+| --- | ---: | ---: | 
+| adahi_dashboard_1 | 481.55 | 42 | 
+| adahi_dashboard_2 | 135.97 | 42 | 
+| last-eatizaz | 71.05 | 124 | 
+| magicai | 23.09 | 127 | 
+| clinic | 22.06 | 139 | 
+| gadd-ai | 21.64 | 35 | 
+| beta-wakeb | 20.69 | 33 | 
+| jeddah-lpr | 10.89 | 52 | 
+| sarie-crm | 9.16 | 97 | 
+| kafd | 8.13 | 125 | 
+| chamber | 7.95 | 120 | 
+| sharqiah | 7.67 | 114 | 
+| mujib-plus | 7.45 | 118 | 
+| mysql | 7.25 | 38 | 
+| vms-wakeb | 5.14 | 92 | 
+| new-aware | 4.59 | 37 | 
+| g-tech | 4.28 | 118 | 
+| aramco-drone | 3.56 | 41 | 
+| aramco-ai | 3.31 | 35 | 
+| swcc-aware2 | 3.08 | 33 | 
+| wakeb-website | 3.00 | 42 | 
+| swcc-aware | 2.86 | 33 | 
+| gadd-ai-old | 2.06 | 35 | 
+| gaddplatform | 1.75 | 38 | 
+| kanban_gadd | 1.59 | 43 | 
+| spack | 1.47 | 43 | 
+| videopf | 1.28 | 42 | 
+| nwc-chatbot | 0.63 | 22 | 
+| eatizaz-ai | 0.59 | 19 | 
+| moc-ai | 0.55 | 19 | 
+| rpa_logic_apps | 0.47 | 18 | 
+| rpa_sso | 0.31 | 16 | 
+| rpa_auth | 0.09 | 6 | 
+| sys | 0.02 | 101 | 
+| performance_schema | 0.00 | 111 | 
+| information_schema | 0.00 | 79 | 
+
+
 ### **Unused and redundant indexes**
 
 ```sql
 select * from sys.schema_unused_indexes;
 select * from sys.schema_redundant_indexes;
 ```
+
+schema_unused_indexes
+---
+| object_schema | object_name | index_name | 
+| --- | --- | --- | 
+| aramco-drone | roles | roles_created_by_foreign | 
+| aramco-drone | steps | steps_created_by_foreign | 
+| aramco-drone | users | users_created_by_foreign | 
+| aramco-drone | users | users_phone_code_id_foreign | 
+| beta-wakeb | wakeb_analytics_pages | wakeb_analytics_pages_date_time_index | 
+| beta-wakeb | wakeb_topic_fields | topic_fields_field_id | 
+| beta-wakeb | wakeb_webmaster_section_fields | webmaster_section_fields_webmaster_id | 
+| clinic | activity_log | subject | 
+| clinic | activity_log | causer | 
+| clinic | activity_log | activity_log_log_name_index | 
+| clinic | admin_complaint_logs | admin_complaint_logs_actorable_type_actorable_id_index | 
+| clinic | admin_complaint_logs | admin_complaint_logs_complaint_id_foreign | 
+| clinic | admins | admins_created_by_foreign | 
+| clinic | advertisements | advertisements_created_by_foreign | 
+| clinic | agora_session_participants | agora_session_participants_joined_at_index | 
+| clinic | allergies | allergies_allergy_type_id_foreign | 
+| clinic | allergies | allergies_allergy_substance_id_foreign | 
+
+
+schema_redundant_indexes
+---
+| table_schema | table_name | redundant_index_name | redundant_index_columns | redundant_index_non_unique | dominant_index_name | dominant_index_columns | dominant_index_non_unique | subpart_exists | sql_drop_index | 
+| --- | --- | --- | --- | ---: | --- | --- | ---: | ---: | --- | 
+| aramco-ai | pulse_entries | pulse_entries_timestamp_index | timestamp | 1 | pulse_entries_timestamp_type_key_hash_value_index | timestamp,type,key_hash,value | 1 | 0 | ALTER TABLE `aramco-ai`.`pulse_entries` DROP INDEX `pulse_entries_timestamp_index` | 
+| aramco-ai | pulse_values | pulse_values_type_index | type | 1 | pulse_values_type_key_hash_unique | type,key_hash | 0 | 0 | ALTER TABLE `aramco-ai`.`pulse_values` DROP INDEX `pulse_values_type_index` | 
+| aramco-ai | user_locations | user_locations_user_id_index | user_id | 1 | PRIMARY | user_id,location_id | 0 | 0 | ALTER TABLE `aramco-ai`.`user_locations` DROP INDEX `user_locations_user_id_index` | 
+| aramco-drone | pulse_entries | pulse_entries_timestamp_index | timestamp | 1 | pulse_entries_timestamp_type_key_hash_value_index | timestamp,type,key_hash,value | 1 | 0 | ALTER TABLE `aramco-drone`.`pulse_entries` DROP INDEX `pulse_entries_timestamp_index` | 
+| aramco-drone | pulse_values | pulse_values_type_index | type | 1 | pulse_values_type_key_hash_unique | type,key_hash | 0 | 0 | ALTER TABLE `aramco-drone`.`pulse_values` DROP INDEX `pulse_values_type_index` | 
+| aramco-drone | user_locations | user_locations_user_id_index | user_id | 1 | PRIMARY | user_id,location_id | 0 | 0 | ALTER TABLE `aramco-drone`.`user_locations` DROP INDEX `user_locations_user_id_index` | 
+| chamber | attribute_categories | attribute_categories_attribute_id_index | attribute_id | 1 | PRIMARY | attribute_id,category_id | 0 | 0 | ALTER TABLE `chamber`.`attribute_categories` DROP INDEX `attribute_categories_attribute_id_index` | 
+| chamber | product_attribute_values | product_attribute_values_product_attribute_id_index | product_attribute_id | 1 | PRIMARY | product_attribute_id,attribute_value_id | 0 | 0 | ALTER TABLE `chamber`.`product_attribute_values` DROP INDEX `product_attribute_values_product_attribute_id_index` | 
+| chamber | product_options | product_options_product_id_index | product_id | 1 | PRIMARY | product_id,option_id | 0 | 0 | ALTER TABLE `chamber`.`product_options` DROP INDEX `product_options_product_id_index` | 
+| clinic | appointment_statuses | appointment_statuses_status_name_index | status_name | 1 | appointment_statuses_status_name_unique | status_name | 0 | 0 | ALTER TABLE `clinic`.`appointment_statuses` DROP INDEX `appointment_statuses_status_name_index` | 
+| clinic | appointments | appointments_appointment_date_index | appointment_date | 1 | appointment_doctor_index | appointment_date,doctor_id | 1 | 0 | ALTER TABLE `clinic`.`appointments` DROP INDEX `appointments_appointment_date_index` | 
+| clinic | appointments | appointments_appointment_date_index | appointment_date | 1 | appointment_patient_index | appointment_date,patient_id | 1 | 0 | ALTER TABLE `clinic`.`appointments` DROP INDEX `appointments_appointment_date_index` | 
+| clinic | patient_blogs | patient_blogs_patient_id_index | patient_id | 1 | PRIMARY | patient_id,blog_id | 0 | 0 | ALTER TABLE `clinic`.`patient_blogs` DROP INDEX `patient_blogs_patient_id_index` | 
+| clinic | patient_doctors | patient_doctors_patient_id_index | patient_id | 1 | PRIMARY | patient_id,doctor_id | 0 | 0 | ALTER TABLE `clinic`.`patient_doctors` DROP INDEX `patient_doctors_patient_id_index` | 
+
 
 ---
 
