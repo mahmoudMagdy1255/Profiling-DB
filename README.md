@@ -346,6 +346,25 @@ where p.created_at > '2024-01-01'
 order by p.id asc
 limit 50;
 ```
+---
+| id | email | first_name | appointment_id | total_price | appointment_status | start_time | day_of_week | 
+| ---: | --- | --- | ---: | ---: | --- | --- | --- | 
+| 1 | \N | Mariem | 3 | 150.00 | Completed | 10:15:00 | Monday | 
+| 1 | \N | Mariem | 6 | 0.00 | Scheduled | 10:15:00 | Monday | 
+| 1 | \N | Mariem | 7 | 0.00 | Scheduled | 12:52:00 | Monday | 
+| 1 | \N | Mariem | 15 | 25.00 | Scheduled | 12:55:00 | Sunday | 
+| 1 | \N | Mariem | 17 | 0.00 | Scheduled | 17:00:00 | Tuesday | 
+| 1 | \N | Mariem | 22 | 2.00 | Completed | 13:00:00 | Monday | 
+| 1 | \N | Mariem | 28 | 44.00 | Scheduled | 09:30:00 | Tuesday | 
+| 1 | \N | Mariem | 29 | 2.00 | Scheduled | 17:00:00 | Tuesday | 
+| 1 | \N | Mariem | 30 | 2.00 | Scheduled | 10:19:00 | Tuesday | 
+| 1 | \N | Mariem | 184 | 0.00 | Scheduled | 11:35:00 | Wednesday | 
+| 1 | \N | Mariem | 254 | 22.00 | Scheduled | 10:15:00 | Monday | 
+| 3 | \N | mohamed | 19 | 25.00 | Scheduled | 13:05:00 | Sunday | 
+| 8 | \N | Yousef | 73 | 0.00 | Scheduled | 12:45:00 | Sunday | 
+| 8 | \N | Yousef | 75 | 0.00 | Scheduled | 14:35:00 | Sunday | 
+| 8 | \N | Yousef | 140 | 300.00 | Scheduled | 16:00:00 | Tuesday | 
+
 
 ---
 
@@ -358,6 +377,30 @@ show global status like 'Innodb_row_lock%';
 show global status like 'Threads_connected';
 show global status like 'Aborted_connects%';
 ```
+
+Innodb_row_lock
+---
+| Variable_name | Value | 
+| --- | --- | 
+| Innodb_row_lock_current_waits | 0 | 
+| Innodb_row_lock_time | 17818 | 
+| Innodb_row_lock_time_avg | 12 | 
+| Innodb_row_lock_time_max | 277 | 
+| Innodb_row_lock_waits | 1448 | 
+
+Threads_connected
+---
+| Variable_name | Value | 
+| --- | --- | 
+| Threads_connected | 1 | 
+
+
+Aborted_connects
+---
+| Variable_name | Value | 
+| --- | --- | 
+| Aborted_connects | 0 | 
+
 
 ---
 
@@ -381,6 +424,11 @@ select
     (select variable_value from performance_schema.global_status where variable_name = 'Innodb_buffer_pool_read_requests') as buffer_read_requests,
     (select variable_value from performance_schema.global_status where variable_name = 'Innodb_buffer_pool_reads') as buffer_disk_reads;
 ```
+---
+| active_connections | current_connections | db_size_mb | slow_query_last_hour | current_locks | all_blocked_transaction | buffer_read_requests | buffer_disk_reads | 
+| ---: | --- | ---: | ---: | ---: | ---: | --- | --- | 
+| 2 | 1 | 22.06 | 0 | 0 | 0 | 39043876 | 5113 | 
+
 
 ---
 
@@ -392,6 +440,11 @@ select 'Deadlock Information' as info,
 from performance_schema.global_status
 where variable_name = 'innodb_deadlocks';
 ```
++-----------------------+------------------------+
+| info                  | deadlocks_since_start |
++-----------------------+------------------------+
+| Deadlock Information  | 42                     |
++-----------------------+------------------------+
 
 ---
 
@@ -407,6 +460,12 @@ select
         ) * 100, 2
     ) as hit_rate_percent;
 ```
+
+---
+| read_requests | disk_reads | hit_rate_percent | 
+| --- | --- | ---: | 
+| 39044624 | 5113 | 99.99 | 
+
 
 ---
 
