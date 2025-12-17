@@ -1,0 +1,24 @@
+SHOW variables LIKE 'server_id';
+SHOW BINARY LOGS ;
+SHOW MASTER STATUS;
+SHOW variables LIKE 'binlog_format';
+SHOW variables LIKE 'gtid_mode';
+SELECT @@GLOBAL.GTID_EXECUTED;
+SHOW VARIABLES LIKE 'enforce_gtid_consistency';
+SHOW VARIABLES LIKE 'default_authentication_plugin';
+SHOW VARIABLES LIKE 'slave_parallel_type';
+SHOW variables LIKE 'slave_parallel_workers';
+SHOW variables LIKE 'binlog_transaction_dependency_tracking';
+SHOW variables LIKE 'innodb_buffer_pool_size';
+SHOW ENGINE INNODB STATUS;
+SHOW variables LIKE 'read_only';
+
+SHOW variables LIKE 'bind_address'; 
+SHOW variables LIKE 'max_connections'; 
+SHOW status LIKE 'Threads_connected';
+SHOW variables LIKE 'expire_logs_days'; 
+SHOW variables LIKE 'sync_binlog'; 
+SHOW variables LIKE 'innodb_flush_log_at_trx_commit';
+SHOW variables LIKE 'innodb_file_per_table';
+SHOW VARIABLES LIKE 'skip_name_resolve';
+SHOW VARIABLES LIKE 'sql_mode';
